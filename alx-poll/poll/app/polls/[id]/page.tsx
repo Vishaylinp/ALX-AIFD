@@ -94,7 +94,7 @@ export default function ViewPollPage() {
                 ) : (
                   <div className="flex-grow">
                     <p className="font-medium">{option.text}</p>
-                    <Progress value={(option.votes / totalVotes) * 100} className="w-full" />
+                    <Progress value={totalVotes > 0 ? (option.votes / totalVotes) * 100 : 0} className="w-full" />
                     <p className="text-sm text-gray-500">{option.votes} votes ({(totalVotes > 0 ? (option.votes / totalVotes) * 100 : 0).toFixed(1)}%)</p>
                   </div>
                 )}

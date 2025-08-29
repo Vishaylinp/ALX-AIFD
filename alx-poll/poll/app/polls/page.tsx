@@ -1,51 +1,44 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+'use client';
 
-const mockPolls = [
-  { id: '1', question: 'What is your favorite color?', description: 'Choose wisely!', votes: 120 },
-  { id: '2', question: 'Best programming language?', description: 'The eternal debate.', votes: 250 },
-  { id: '3', question: 'Favorite food?', description: 'Sweet or savory?', votes: 90 },
-];
+import Link from 'next/link';
 
 export default function PollsPage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <main className="flex flex-col items-center justify-center flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold mb-8">
-          Welcome to the Polls Dashboard!
-        </h1>
+    <main className="flex min-h-screen flex-col items-center p-8 bg-gray-900 text-white">
+      <h1 className="text-5xl font-extrabold mb-6 text-yellow-400">Polls Dashboard</h1>
+      <p className="text-xl mb-10 text-gray-300">View existing polls or create a new one.</p>
 
-        <p className="mt-3 text-2xl mb-8">
-          Create and participate in engaging polls.
-        </p>
+      <div className="w-full max-w-4xl bg-gray-800 p-8 rounded-xl shadow-2xl">
+        <h2 className="text-3xl font-bold mb-6 text-center text-yellow-400">Available Polls</h2>
+        <ul className="space-y-6 mb-8">
+          <li className="bg-gray-700 p-6 rounded-lg shadow-lg flex flex-col md:flex-row justify-between items-center">
+            <div>
+              <h3 className="text-2xl font-semibold text-white">Sample Poll 1: Favorite Color?</h3>
+              <p className="text-gray-400 text-sm">Created by: user@example.com</p>
+            </div>
+            <Link href="/polls/1">
+              <button className="mt-4 md:mt-0 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105">View Poll</button>
+            </Link>
+          </li>
+          <li className="bg-gray-700 p-6 rounded-lg shadow-lg flex flex-col md:flex-row justify-between items-center">
+            <div>
+              <h3 className="text-2xl font-semibold text-white">Sample Poll 2: Best Programming Language?</h3>
+              <p className="text-gray-400 text-sm">Created by: anotheruser@example.com</p>
+            </div>
+            <Link href="/polls/2">
+              <button className="mt-4 md:mt-0 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105">View Poll</button>
+            </Link>
+          </li>
+        </ul>
 
-        <div className="flex items-center justify-center mb-8">
-          <Link href="/polls/create" passHref>
-            <Button className="text-lg px-8 py-4">Create New Poll</Button>
+        <div className="text-center">
+          <Link href="/polls/create">
+            <button className="px-8 py-4 bg-purple-700 text-white rounded-xl shadow-xl hover:bg-purple-800 transition duration-300 ease-in-out transform hover:scale-105 text-2xl font-bold">
+              Create New Poll
+            </button>
           </Link>
         </div>
-
-        <h2 className="text-4xl font-bold mb-6">Available Polls</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-4xl">
-          {mockPolls.map((poll) => (
-            <Card key={poll.id} className="w-full">
-              <CardHeader>
-                <CardTitle>{poll.question}</CardTitle>
-                <CardDescription>{poll.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Votes: {poll.votes}</p>
-              </CardContent>
-              <CardFooter>
-                <Link href={`/polls/${poll.id}`} passHref>
-                  <Button className="w-full">View Poll</Button>
-                </Link>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
