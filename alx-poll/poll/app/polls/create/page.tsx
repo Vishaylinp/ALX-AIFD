@@ -1,13 +1,38 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useActionState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { createPoll } from '@/app/actions/poll-actions';
+import { createClient } from '@/lib/supabase/client';
 
 export default function CreatePollPage() {
-  const [question, setQuestion] = useState('');
+  const supabase = createClient();
   const [options, setOptions] = useState<string[]>(['', '']);
+  const [state, formAction] = useActionState(createPoll, null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state?.success) {
+      alert(state.success);
+      router.push('/polls');
+    } else if (state?.error) {
+      alert(state.error);
+    }
+  }, [state, router]);
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/login');
+      }
+    };
+    checkUser();
+  }, [supabase, router]);
 
   const handleOptionChange = (index: number, value: string) => {
     const newOptions = [...options];
@@ -24,26 +49,16 @@ export default function CreatePollPage() {
     setOptions(newOptions);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Here you would typically send the poll data to your backend
-    console.log('New Poll:', { question, options });
-    alert('Poll created successfully! (Check console for data)');
-    setQuestion('');
-    setOptions(['', '']);
-  };
-
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Create New Poll</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form action={formAction} className="space-y-4">
         <div>
           <Label htmlFor="question">Poll Question</Label>
           <Input
             id="question"
+            name="question"
             type="text"
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
             placeholder="Enter your poll question"
             required
           />
@@ -54,6 +69,7 @@ export default function CreatePollPage() {
             <div key={index} className="flex space-x-2 mb-2">
               <Input
                 type="text"
+                name="options"
                 value={option}
                 onChange={(e) => handleOptionChange(index, e.target.value)}
                 placeholder={`Option ${index + 1}`}
@@ -71,6 +87,7 @@ export default function CreatePollPage() {
           </Button>
         </div>
         <Button type="submit">Create Poll</Button>
+        {state?.error && <p className="text-red-500">{state.error}</p>}
       </form>
     </div>
   );
