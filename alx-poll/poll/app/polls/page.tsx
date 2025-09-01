@@ -1,10 +1,23 @@
 // Import required dependencies and components
+'use client';
+
 import { fetchPolls } from '@/app/actions/poll-fetch-actions';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 // Main component for displaying polls dashboard
-export default async function PollsPage() {
+export default function PollsPage() {
   
   // Mock data for polls - to be replaced with actual data fetch
   const polls = [
@@ -60,7 +73,24 @@ hello
                 {/* {user && user.id === poll.userId && ( */}
                   <>
                     <Button variant="outline" className="mt-4 md:mt-0 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-105">Edit</Button>
-                    <Button variant="destructive" className="mt-4 md:mt-0 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out transform hover:scale-105">Delete</Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="destructive" className="mt-4 md:mt-0 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out transform hover:scale-105">Delete</Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete your poll
+                            and remove its data from our servers.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => console.log('Poll deleted!')}>Continue</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </>
                 {/* )} */}
               </div>
