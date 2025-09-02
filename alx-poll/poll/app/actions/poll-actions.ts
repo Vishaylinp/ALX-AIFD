@@ -1,54 +1,53 @@
 'use server';
 
-import { createClient } from '../../lib/supabase/server';
-import { revalidatePath } from 'next/cache';
+import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 
-export async function createPoll(prevState: { success?: string; error?: string } | null, formData: FormData) {
-  const supabase = createClient();
+export async function createPoll(prevState: any, formData: FormData) {
+  const question = formData.get('question') as string | null;
+  const optionsArray = formData
+    .getAll('options')
+    .map(opt => (opt as string).trim())
+    .filter(opt => opt !== '');
 
-  const question = formData.get('question') as string;
-  const optionsString = formData.get('options') as string;
-  const options = optionsString.split('\n').map(option => option.trim()).filter(option => option.length > 0);
+  if (!question || optionsArray.length === 0) {
+    return { error: 'Question and at least one option are required.' };
+  }
 
   try {
+    const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {
-      return { error: 'User not authenticated.' };
+      throw new Error('User not authenticated.');
     }
 
-    const { data: pollData, error: pollError } = await supabase
+    // Insert poll
+    const { data: poll, error: pollError } = await supabase
       .from('polls')
-      .insert({ question, user_id: user.id })
+      .insert([{ question, creator_id: user.id }])
       .select()
       .single();
 
-    if (pollError) {
-      console.error('Error creating poll:', pollError);
-      return { error: pollError.message };
-    }
+    if (pollError) throw pollError;
 
-    if (options.length > 0) {
-      const optionsToInsert = options.map(optionText => ({
-        poll_id: pollData.id,
-        text: optionText,
-      }));
+    // Insert options
+    const formattedOptions = optionsArray.map(text => ({
+      option_text: text,
+      poll_id: poll.id,
+    }));
 
-      const { error: optionsError } = await supabase
-        .from('options')
-        .insert(optionsToInsert);
+    const { error: optionsError } = await supabase
+      .from('options')
+      .insert(formattedOptions);
 
-      if (optionsError) {
-        console.error('Error creating options:', optionsError);
-        return { error: optionsError.message };
-      }
-    }
+    if (optionsError) throw optionsError;
 
-    revalidatePath('/polls');
-    return { success: 'Poll created successfully!' };
-  } catch (error: any) {
-    console.error('Error creating poll:', error);
-    return { error: error.message };
+    // Redirect to the newly created poll
+    redirect(`/polls/${poll.id}`);
+    return null;
+  } catch (error) {
+    return { error: (error as Error).message };
   }
 }
+

@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
@@ -19,7 +20,7 @@ interface Poll {
 }
 
 interface PollPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 // Mock poll data for demonstration
@@ -49,7 +50,7 @@ const mockPolls: Poll[] = [
 ];
 
 export default function PollPage({ params }: PollPageProps) {
-  const { id } = params;
+  const { id } = React.use(params) as { id: string };
   const [poll, setPoll] = useState<Poll | undefined>(mockPolls.find(p => p.id === id));
   const [hasVoted, setHasVoted] = useState(false);
 

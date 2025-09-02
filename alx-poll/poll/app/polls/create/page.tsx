@@ -7,32 +7,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { createPoll } from '@/app/actions/poll-actions';
-import { createClient } from '@/lib/supabase/client';
 
 export default function CreatePollPage() {
-  const supabase = createClient();
   const [options, setOptions] = useState<string[]>(['', '']);
   const [state, formAction] = useActionState(createPoll, null);
   const router = useRouter();
 
   useEffect(() => {
-    if (state?.success) {
-      alert(state.success);
-      router.push('/polls');
-    } else if (state?.error) {
+    if (state?.error) {
       alert(state.error);
     }
-  }, [state, router]);
-
-  useEffect(() => {
-    const checkUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        router.push('/login');
-      }
-    };
-    checkUser();
-  }, [supabase, router]);
+  }, [state]);
 
   const handleOptionChange = (index: number, value: string) => {
     const newOptions = [...options];
@@ -40,14 +25,8 @@ export default function CreatePollPage() {
     setOptions(newOptions);
   };
 
-  const addOption = () => {
-    setOptions([...options, '']);
-  };
-
-  const removeOption = (index: number) => {
-    const newOptions = options.filter((_, i) => i !== index);
-    setOptions(newOptions);
-  };
+  const addOption = () => setOptions([...options, '']);
+  const removeOption = (index: number) => setOptions(options.filter((_, i) => i !== index));
 
   return (
     <div className="container mx-auto p-4">
@@ -63,6 +42,7 @@ export default function CreatePollPage() {
             required
           />
         </div>
+
         <div>
           <Label>Options</Label>
           {options.map((option, index) => (
@@ -86,7 +66,9 @@ export default function CreatePollPage() {
             Add Option
           </Button>
         </div>
+
         <Button type="submit">Create Poll</Button>
+
         {state?.error && <p className="text-red-500">{state.error}</p>}
       </form>
     </div>

@@ -16,11 +16,12 @@ export default function SignupPage() {
     e.preventDefault();
     setError(null);
 
-    const { error } = await supabase.auth.signUp({
+    const { data,error } = await supabase.auth.signUp({
       email,
       password,
     });
-
+console.log(error)
+console.log(data)
     if (error) {
       setError(error.message);
     } else {

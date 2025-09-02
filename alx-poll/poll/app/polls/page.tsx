@@ -51,7 +51,7 @@ export default function PollsPage() {
       {/* Dashboard header section */}
       <h1 className="text-5xl font-extrabold mb-6 text-yellow-400">Polls Dashboard</h1>
       <p className="text-xl mb-10 text-gray-300">View existing polls or create a new one.</p>
-hello
+
       {/* Polls display container */}
       <div className="w-full max-w-4xl bg-gray-800 p-8 rounded-xl shadow-2xl">
         <h2 className="text-3xl font-bold mb-6 text-center text-yellow-400">Available Polls</h2>

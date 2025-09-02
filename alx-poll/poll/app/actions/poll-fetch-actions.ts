@@ -1,6 +1,4 @@
-'use server';
-
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/client';
 
 export async function fetchPolls() {
   const supabase = createClient();
