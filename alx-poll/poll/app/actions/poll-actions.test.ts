@@ -86,10 +86,12 @@ describe("createPoll", () => {
 
     // Assert
     expect(mockFrom).toHaveBeenCalledWith("polls");
-    expect(mockInsert).toHaveBeenCalledWith({
-      question: "What is your favorite color?",
-      created_by: "mock-user-id",
-    });
+    expect(mockInsert).toHaveBeenCalledWith([
+      {
+        question: "What is your favorite color?",
+        creator_id: "mock-user-id",
+      },
+    ]);
     expect(mockSelect).toHaveBeenCalled();
     expect(mockSingle).toHaveBeenCalled();
     expect(redirect).toHaveBeenCalledWith("/polls/mock-poll-id");
@@ -110,14 +112,10 @@ describe("createPoll", () => {
     await createPoll(null, formData);
 
     // Assert
-    expect(mockFrom).toHaveBeenCalledWith("polls");
-    expect(mockInsert).toHaveBeenCalledWith({
-      question: "Empty options test",
-      created_by: "mock-user-id",
-    });
-    expect(redirect).toHaveBeenCalledWith("/polls/mock-poll-id");
-    // Ensure the options table was not inserted into
-    expect(mockFrom).not.toHaveBeenCalledWith("options");
+    const result = await createPoll(null, formData);
+    expect(result).toEqual({ error: "Question and at least one option are required." });
+    expect(mockFrom).not.toHaveBeenCalled();
+    expect(redirect).not.toHaveBeenCalled();
   });
 
   it("should return error if user not authenticated", async () => {
@@ -126,6 +124,7 @@ describe("createPoll", () => {
 
     const formData = new FormData();
     formData.append("question", "Unauthenticated test");
+    formData.append("options", "Option 1");
     
     // Act
     const result = await createPoll(null, formData);
