@@ -16,8 +16,10 @@ export default function CreatePollPage() {
   useEffect(() => {
     if (state?.error) {
       alert(state.error);
+    } else if (state?.pollId) {
+      router.push(`/polls/${state.pollId}`);
     }
-  }, [state]);
+  }, [state, router]);
 
   const handleOptionChange = (index: number, value: string) => {
     const newOptions = [...options];

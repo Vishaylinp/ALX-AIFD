@@ -1,8 +1,8 @@
 'use server';
-
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 
+// --- CREATE POLL ---
 export async function createPoll(prevState: any, formData: FormData) {
   const question = formData.get('question') as string | null;
   const optionsArray = formData
@@ -45,9 +45,32 @@ export async function createPoll(prevState: any, formData: FormData) {
 
     // Redirect to the newly created poll
     redirect(`/polls/${poll.id}`);
-    return null;
-  } catch (error) {
-    return { error: (error as Error).message };
+    return { pollId: poll.id };
+  } catch (error: any) {
+    return { error: error.message };
   }
 }
 
+// --- RECORD VOTE ---
+export async function recordVote(pollId: string, optionId: string) {
+  if (!pollId || !optionId) {
+    return { success: false, error: 'Invalid poll or option.' };
+  }
+
+  const supabase = createClient();
+
+  try {
+    // Increment vote count
+    const { data, error } = await supabase
+      .from('votes')
+      .update({ votes: 1 })
+      .eq('poll_id', pollId)
+      .eq('option_id', optionId);
+
+    if (error) throw error;
+
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Database error' };
+  }
+}
