@@ -8,6 +8,23 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { createPoll } from '@/app/actions/poll-actions';
 
+/**
+ * `CreatePollPage` Component
+ * 
+ * This component provides the user interface for creating new polls.
+ * It is essential for the app's core functionality, allowing users to contribute
+ * content and engage with the polling system.
+ * 
+ * ### Key Responsibilities:
+ * - Manages the state for poll options (adding, removing, changing).
+ * - Handles form submission to create a new poll using a Server Action (`createPoll`).
+ * - Provides immediate feedback to the user (errors or success redirection).
+ * 
+ * ### Connection to App Context:
+ * This page directly interacts with the server-side `createPoll` action to persist
+ * new poll data. Upon successful creation, it navigates the user to the newly
+ * created poll's detail page, integrating seamlessly with the poll viewing flow.
+ */
 export default function CreatePollPage() {
   const [options, setOptions] = useState<string[]>(['', '']);
   const [state, formAction] = useActionState(createPoll, null);

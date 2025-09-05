@@ -1,36 +1,124 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🗳️ ALX Poll App
 
-## Getting Started
+Welcome to the ALX Poll App! This project is a modern, full-stack polling application built with Next.js and Supabase. It allows users to create, view, and vote on polls, providing a seamless and interactive experience. Our goal is to demonstrate a robust application structure, secure authentication, and efficient data handling using the latest web technologies.
 
-First, run the development server:
+## 🚀 Getting Started
+
+To get this project up and running on your local machine, follow these steps:
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- Node.js (v18.x or later)
+- npm, yarn, pnpm, or bun (your preferred package manager)
+- Git
+
+### Installation
+
+1.  **Clone the repository:**
+
+    ```bash
+    git clone https://github.com/your-username/alx-poll-app.git
+    cd alx-poll-app/poll
+    ```
+
+2.  **Install dependencies:**
+
+    Choose your preferred package manager:
+
+    ```bash
+    # Using npm
+    npm install
+
+    # Using yarn
+    yarn install
+
+    # Using pnpm
+    pnpm install
+
+    # Using bun
+    bun install
+    ```
+
+3.  **Set up Environment Variables:**
+
+    Create a `.env.local` file in the `poll` directory (where `package.json` is located) and add your Supabase project credentials. You can find these in your Supabase project settings under `API`.
+
+    ```
+    NEXT_PUBLIC_SUPABASE_URL=YOUR_SUPABASE_URL
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+    ```
+
+    **Important:** Never commit your `.env.local` file to version control.
+
+4.  **Run the development server:**
+
+    ```bash
+    # Using npm
+    npm run dev
+
+    # Using yarn
+    yarn dev
+
+    # Using pnpm
+    pnpm dev
+
+    # Using bun
+    bun dev
+    ```
+
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## 🛠️ Technologies and Dependencies
+
+This project leverages the following key technologies and libraries:
+
+-   **Next.js** (v15.5.2): A React framework for building full-stack web applications.
+-   **React** (v19.1.0) & **React DOM** (v19.1.0): For building user interfaces.
+-   **Supabase** (`@supabase/supabase-js` v2.56.0, `@supabase/ssr` v0.7.0): Our backend-as-a-service for database, authentication, and real-time features.
+-   **shadcn/ui**: A collection of re-usable components built with Radix UI and Tailwind CSS.
+    -   `@radix-ui/react-alert-dialog` (v1.1.15)
+    -   `@radix-ui/react-label` (v2.1.7)
+    -   `@radix-ui/react-progress` (v1.1.7)
+    -   `@radix-ui/react-slot` (v1.2.3)
+-   **Tailwind CSS** (v4): A utility-first CSS framework for rapid UI development.
+-   **Lucide React** (v0.542.0): A collection of beautiful and customizable SVG icons.
+-   **Vitest** (v3.2.4): A blazing fast unit-test framework powered by Vite.
+    -   `@testing-library/jest-dom` (v6.8.0)
+    -   `@vitejs/plugin-react` (v5.0.2)
+    -   `@vitest/ui` (v3.2.4)
+    -   `jsdom` (v26.1.0)
+-   **TypeScript** (v5): For type-safe JavaScript development.
+-   **Other Utilities:**
+    -   `class-variance-authority` (v0.7.1)
+    -   `clsx` (v2.1.1)
+    -   `tailwind-merge` (v3.3.1)
+    -   `tw-animate-css` (v1.3.7)
+
+## 🧪 Running Tests
+
+This project uses [Vitest](https://vitest.dev/) for unit testing. To run the tests, use the following command:
 
 ```bash
-npm run dev
+npm test
 # or
-yarn dev
+yarn test
 # or
-pnpm dev
+pnpm test
 # or
-bun dev
+bun test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This will execute all tests and report the results in your terminal.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📚 Further Learning and Contributions
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To learn more about Next.js and contribute to this project, check out these resources:
 
-## Learn More
+-   [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API.
+-   [Learn Next.js](https://nextjs.org/learn) - An interactive Next.js tutorial.
+-   [Project Issues](https://github.com/your-username/alx-poll-app/issues) - Report bugs or suggest new features.
+-   [Project Roadmap](https://github.com/your-username/alx-poll-app/projects) - See what's planned for the future.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Your feedback and contributions are always welcome!

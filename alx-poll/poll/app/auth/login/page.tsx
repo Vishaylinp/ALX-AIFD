@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,6 +13,25 @@ export default function LoginPage() {
   const router = useRouter();
   const supabase = createClient();
 
+  /**
+   * `handleLogin` Function
+   * 
+   * This asynchronous function handles the submission of the login form.
+   * It is crucial for authenticating users against the Supabase backend,
+   * allowing them to gain access to protected areas of the application.
+   * 
+   * ### Key Responsibilities:
+   * - Prevents default form submission behavior.
+   * - Resets any previous error messages.
+   * - Attempts to sign in the user with the provided email and password using Supabase.
+   * - Sets an error message if authentication fails.
+   * - Redirects the user to the `/polls` page upon successful login.
+   * 
+   * ### Connection to App Context:
+   * This function is the core logic for user authentication, directly interacting
+   * with the Supabase authentication service to verify user credentials and manage
+   * session state, thereby enabling access to the polling features.
+   */
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);

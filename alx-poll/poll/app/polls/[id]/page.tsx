@@ -1,6 +1,23 @@
 import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 
+/**
+ * `PollDetailsPage` Component
+ * 
+ * This component displays the detailed view of a single poll, identified by its ID.
+ * It is crucial for user interaction, allowing users to see the poll question,
+ * available options, and eventually cast their votes.
+ * 
+ * ### Key Responsibilities:
+ * - Fetches specific poll data (question and options) from Supabase based on the provided ID.
+ * - Renders the poll details, including its question and options.
+ * - Handles cases where a poll is not found by redirecting to a 404 page.
+ * 
+ * ### Connection to App Context:
+ * This page is a direct extension of the `/polls` page, providing the granular view
+ * for each poll. It forms a critical part of the voting system, as it's where users
+ * will interact with individual poll options and submit their choices.
+ */
 export default async function PollDetailsPage({ params }: { params: { id: string } }) {
   const supabase = createClient();
   const { data: poll } = await supabase

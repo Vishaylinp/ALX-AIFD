@@ -17,6 +17,24 @@ import {
 } from '@/components/ui/alert-dialog';
 
 // Main component for displaying polls dashboard
+/**
+ * `PollsPage` Component
+ * 
+ * This component serves as the main dashboard for displaying a list of polls.
+ * It is crucial for user engagement, allowing users to view existing polls and
+ * navigate to create new ones or interact with specific polls.
+ * 
+ * ### Key Responsibilities:
+ * - Renders a list of polls, currently using mock data.
+ * - Provides navigation to individual poll detail pages.
+ * - Offers a clear call-to-action for creating new polls.
+ * 
+ * ### Connection to App Context:
+ * This page is the central hub for poll management, providing an overview of
+ * available polls and acting as a gateway to both poll creation and individual
+ * poll interaction. It will eventually integrate with server-side data fetching
+ * to display real-time poll data.
+ */
 export default function PollsPage() {
   
   // Mock data for polls - to be replaced with actual data fetch

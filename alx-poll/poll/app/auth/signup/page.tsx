@@ -5,6 +5,24 @@ import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+/**
+ * `SignupPage` Component
+ * 
+ * This component allows new users to register for an account using their email and password.
+ * It is essential for user acquisition and expanding the app's user base, enabling new users
+ * to access features like creating and voting on polls.
+ * 
+ * ### Key Responsibilities:
+ * - Provides a form for user registration.
+ * - Handles user signup via Supabase's `signUp` method.
+ * - Displays error messages for failed registrations.
+ * - Redirects successfully registered users to the `/polls` page.
+ * 
+ * ### Integration:
+ * - **Supabase Auth**: Integrates directly with Supabase for user creation.
+ * - **Routing**: Uses Next.js `useRouter` for navigation after signup.
+ * - **Login Flow**: Provides a link to the `/auth/login` page for existing users.
+ */
 export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
