@@ -1,3 +1,5 @@
+import QRCodeDisplay from '@/components/QRCodeDisplay';
+
 export default async function PollDetailsPage({ params }: { params: { id: string } }) {
   console.log("Displaying mock poll");
 
@@ -12,9 +14,12 @@ export default async function PollDetailsPage({ params }: { params: { id: string
     ],
   };
 
+  const pollUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/polls/${mockPoll.id}`;
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">{mockPoll.question}</h1>
+      <QRCodeDisplay value={pollUrl} size={256} />
 
       <div className="space-y-4">
         {mockPoll.options.map((option: { id: string; option_text: string }) => (
