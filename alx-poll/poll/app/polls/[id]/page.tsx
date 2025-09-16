@@ -19,16 +19,51 @@ import { notFound } from 'next/navigation';
  * will interact with individual poll options and submit their choices.
  */
 export default async function PollDetailsPage({ params }: { params: { id: string } }) {
+  const isValidUuid = (uuid: string) => {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    return uuidRegex.test(uuid);
+  };
+
+  if (!params.id || typeof params.id !== 'string' || !isValidUuid(params.id)) {
+    notFound();
+  }
+
   const supabase = createClient();
-  const { data: poll } = await supabase
+  
+  // First, try to fetch the poll without its options
+  const { data: pollData, error: pollError } = await supabase
     .from('polls')
-    .select('*, options(*)')
+    .select('*') // Select only poll data
     .eq('id', params.id)
     .single();
 
-  if (!poll) {
+  if (pollError) {
+    // In a real application, you might want to log this error more robustly
+    console.error('Error fetching poll data:', pollError);
+    notFound(); 
+  }
+
+  if (!pollData) {
     notFound();
   }
+
+  // Now, fetch the options for the found poll
+  const { data: optionsData, error: optionsError } = await supabase
+    .from('options')
+    .select('*')
+    .eq('poll_id', pollData.id); // Assuming 'poll_id' is the foreign key in the options table
+
+  if (optionsError) {
+    console.error('Error fetching poll options:', optionsError);
+    // Decide how to handle this: either show poll without options or treat as not found
+    // For now, let's proceed with an empty options array if there's an error
+    // or if no options are found.
+  }
+
+  const poll = {
+    ...pollData,
+    options: optionsData || [], // Ensure options is an array, even if empty or error
+  };
 
   return (
     <div className="container mx-auto p-4">
