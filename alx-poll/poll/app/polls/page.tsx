@@ -40,7 +40,7 @@ export default function PollsPage() {
   // Mock data for polls - to be replaced with actual data fetch
   const polls = [
     {
-      id: "1",
+      id: "a1b2c3d4-e5f6-7890-1234-567890abcdef",
       question: "What is your favorite color?",
       options: [
         { id: "1", text: "Red", votes: 10 },
@@ -51,7 +51,7 @@ export default function PollsPage() {
       createdAt: new Date(),
     },
     {
-      id: "2",
+      id: "f0e9d8c7-b6a5-4321-fedc-ba9876543210",
       question: "Which programming language do you prefer?",
       options: [
         { id: "1", text: "JavaScript", votes: 20 },
@@ -115,7 +115,7 @@ export default function PollsPage() {
             </li>
           ))}
         </ul>
-3
+        
         {/* Create new poll button */}
         <div className="text-center">
           <Link href="/polls/create">
